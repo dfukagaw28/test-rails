@@ -6,13 +6,13 @@ RUN set -ex \
 
 WORKDIR /myapp
 
-RUN set -ex \
-  && gem install sqlite3 -v 1.3.13 \
-  && gem install rails -v 5.2.4 \
-  && rails new . --force --skip-bundle
+COPY ./Gemfile /myapp/Gemfile
+COPY ./Gemfile.lock /myapp/Gemfile.lock
 
 RUN set -ex \
-  && sed -i "s/gem 'sqlite3'/gem 'sqlite3', '< 1.4'/" Gemfile
+  && bundle install
+
+COPY ./myapp /myapp
 
 RUN set -ex \
   && bundle install
