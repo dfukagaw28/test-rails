@@ -2,20 +2,18 @@ FROM ruby:2.6
 
 RUN set -ex \
   && apt-get update \
-  && apt-get install -y build-essential nodejs
+  && apt-get install -y build-essential libpq-dev nodejs
 
 WORKDIR /myapp
 
 COPY ./Gemfile /myapp/Gemfile
 COPY ./Gemfile.lock /myapp/Gemfile.lock
 
-RUN set -ex \
-  && bundle install
+RUN bundle install
 
 COPY ./myapp /myapp
 
-RUN set -ex \
-  && bundle install
+RUN bundle install
 
 COPY entrypoint.sh /usr/bin/
 RUN chmod +x /usr/bin/entrypoint.sh
